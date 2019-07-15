@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0e0c5d9de83be204f8cfb556c07828e8
+timeCreated: 1563026047
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Overpass Black
+  fontNames:
+  - Overpass Black
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

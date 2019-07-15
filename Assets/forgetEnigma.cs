@@ -120,6 +120,7 @@ public class forgetEnigma : MonoBehaviour {
                     "Forget Me Not",
                     "Forget Them All",
                     "Forget This",
+                    "Forget Enigma",
                     "Four-Card Monte",
                     "Purgatory",
                     "Simon's Stages",

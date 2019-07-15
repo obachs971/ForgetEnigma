@@ -115,17 +115,19 @@ public class forgetEnigma : MonoBehaviour {
         if (ignoredModules == null)
         {
             ignoredModules = GetComponent<KMBossModule>().GetIgnoredModules("Forget Enigma", new string[]{
-                "Forget Me Not",     //Regular version.
-                "Forget Everything", //Mandatory to prevent unsolvable bombs.
-                "Turn The Key",      //TTK is timer based, and stalls the bomb if only it and FMN are left.
-                "Souvenir",          //Similar situation to TTK, stalls the bomb.
-                "The Time Keeper",   //Again, timilar to TTK.
-                "Simon's Stages",    //Not sure, told to add it.
-                "Alchemy",
-                "Forget This",
-                "Simon's Stages",
-                "Timing is Everything",
-                "Forget Enigma"
+                   "Forget Everything",
+                    "Forget Infinity",
+                    "Forget Me Not",
+                    "Forget Them All",
+                    "Forget This",
+                    "Four-Card Monte",
+                    "Purgatory",
+                    "Simon's Stages",
+                    "Souvenir",
+                    "Tallordered Keys",
+                    "The Time Keeper",
+                    "Timing is Everything",
+                    "Turn The Key"
             });
         }
     }

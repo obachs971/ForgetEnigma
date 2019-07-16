@@ -140,6 +140,7 @@ public class forgetEnigma : MonoBehaviour {
         if (count == 0)
         { //Prevent deadlock
             Debug.Log("[Forget Enigma #" + moduleId + "] No valid stage modules, auto-solving.");
+            Audio.PlaySoundAtTransform(sounds[1].name, transform);
             GetComponent<KMBombModule>().HandlePass();
             moduleSolved = true;
             return;
@@ -340,7 +341,7 @@ public class forgetEnigma : MonoBehaviour {
         }
         return r;
     }
-    //On a key press, it will
+    //On a key press
     void letterPress(String let)
     {
         if(!moduleSolved)
@@ -354,15 +355,20 @@ public class forgetEnigma : MonoBehaviour {
                 }
                 if (let[0] == answer[stage])
                 {
-                    rotors = turn(rotors);
-                    stage++;
-                    stageText.text = (stage + 1) + "";
                     if (stage == answer.Length)
                     {
+                        configuration.text = "";
+                        stageText.text = "--";
                         Audio.PlaySoundAtTransform(sounds[1].name, transform);
                         Module.HandlePass();
                         moduleSolved = true;
                     }
+                    else
+                    {
+                        rotors = turn(rotors);
+                        stage++;
+                        stageText.text = (stage + 1) + "";
+                    } 
                 }
                 else
                 {

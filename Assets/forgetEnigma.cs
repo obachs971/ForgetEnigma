@@ -137,7 +137,7 @@ public class forgetEnigma : MonoBehaviour {
     {
         done = false;
         int count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
-        Debug.LogFormat("[Forget Everything #{0}] Number of stages is {1}", moduleId, count);
+        Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
         if (count == 0)
         { //Prevent deadlock
             Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);
@@ -148,7 +148,7 @@ public class forgetEnigma : MonoBehaviour {
         }
         if (count > 99)
         { //More than 99 stages will cause issues as the stage display only has 2 digits
-            Debug.LogFormat("[Forget Everything #{0}] More than 99 stages, capping at 99.", moduleId);
+            Debug.LogFormat("[Forget Enigma #{0}] More than 99 stages, capping at 99.", moduleId);
             count = 99;
         }
 
@@ -174,8 +174,8 @@ public class forgetEnigma : MonoBehaviour {
           
 
         }
-        Debug.LogFormat("[Forget Everything #{0}] Enigma Configuration: {1}", moduleId, configText);
-        Debug.LogFormat("[Forget Everything #{0}] Rotor Setup: {1}", moduleId, rotors[1][1][0] + "" + rotors[2][1][0] + "" + rotors[3][1][0]);
+        Debug.LogFormat("[Forget Enigma #{0}] Enigma Configuration: {1}", moduleId, configText);
+        Debug.LogFormat("[Forget Enigma #{0}] Rotor Setup: {1}", moduleId, rotors[1][1][0] + "" + rotors[2][1][0] + "" + rotors[3][1][0]);
         //Adding in the keyboard
         rotors[4] = enigKeyboard;
         
@@ -185,7 +185,7 @@ public class forgetEnigma : MonoBehaviour {
         {
             answer = answer + "" + generateLetter();
         }
-        Debug.LogFormat("[Forget Everything #{0}] Generated Answer: {1}", moduleId, answer);
+        Debug.LogFormat("[Forget Enigma #{0}] Generated Answer: {1}", moduleId, answer);
         //Encrypting answer
         int tempCounter = 1;
         foreach (char let in answer)
@@ -205,7 +205,7 @@ public class forgetEnigma : MonoBehaviour {
         configuration.text = configText;
         //Show stage number
         stageText.text = (stage + 1) + "";
-        Debug.LogFormat("[Forget Everything #{0}] Generated Answer: {1}", moduleId, encryptedAnswer);
+        Debug.LogFormat("[Forget Enigma #{0}] Generated Answer: {1}", moduleId, encryptedAnswer);
     }
 
     // Update is called once per frame
@@ -344,11 +344,11 @@ public class forgetEnigma : MonoBehaviour {
     //On a key press
     void letterPress(String let)
     {
-        if(!moduleSolved)
+        Debug.LogFormat("[Forget Enigma #{0}] You pressed {1}", moduleId, let);
+        Debug.LogFormat("[Forget Enigma #{0}] Stage {1} out of {2}", moduleId, stage + 1, answer.Length);
+        if (!moduleSolved)
         {
-            Debug.LogFormat("[Forget Everything #{0}] Expecting the letter {1} to be pressed", moduleId, answer[stage]);
-            Debug.LogFormat("[Forget Everything #{0}] You pressed {1}", moduleId, let);
-
+            Debug.LogFormat("[Forget Enigma #{0}] Expecting the letter {1} to be pressed", moduleId, answer[stage]);
             Audio.PlaySoundAtTransform(sounds[0].name, transform);
             if (done)
             {
@@ -360,7 +360,7 @@ public class forgetEnigma : MonoBehaviour {
                 {
                     if (stage >= answer.Length - 1)
                     {
-                        Debug.LogFormat("[Forget Everything #{0}] That is correct, module solved", moduleId);
+                        Debug.LogFormat("[Forget Enigma #{0}] That is correct, module solved", moduleId);
                         configuration.text = "";
                         stageText.text = "--";
                         Audio.PlaySoundAtTransform(sounds[1].name, transform);
@@ -372,7 +372,7 @@ public class forgetEnigma : MonoBehaviour {
                         rotors = turn(rotors);
                         stage++;
                         stageText.text = (stage + 1) + "";
-                        Debug.LogFormat("[Forget Everything #{0}] That is correct, moving on to stage {1}", moduleId, stage + 1);
+                        Debug.LogFormat("[Forget Enigma #{0}] That is correct, moving on to stage {1}", moduleId, stage + 1);
                     } 
                 }
                 else
@@ -388,7 +388,7 @@ public class forgetEnigma : MonoBehaviour {
             }
             else
             {
-                Debug.LogFormat("[Forget Everything #{0}] Strike! I wasn't expecting any input yet", moduleId);
+                Debug.LogFormat("[Forget Enigma #{0}] Strike! I wasn't expecting any input yet", moduleId);
                 Module.HandleStrike();
             }
         }
@@ -470,7 +470,7 @@ public class forgetEnigma : MonoBehaviour {
             }
             letterLog = letterLog + "" + let + "->";
         }
-        Debug.LogFormat("[Forget Everything #{0}] Stage {1}: {2}: {3}", moduleId, s, r[1][1][0] + "" + r[2][1][0] + "" + r[3][1][0], letterLog.Substring(0, letterLog.Length - 2));
+        Debug.LogFormat("[Forget Enigma #{0}] Stage {1}: {2}: {3}", moduleId, s, r[1][1][0] + "" + r[2][1][0] + "" + r[3][1][0], letterLog.Substring(0, letterLog.Length - 2));
         return let;
     }
     

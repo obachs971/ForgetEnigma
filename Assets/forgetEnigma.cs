@@ -93,12 +93,12 @@ public class forgetEnigma : MonoBehaviour {
     };
     private String order = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private String[][] rotors;
-    
+
     private int count = 0;
     private String answer = "";
     private String encryptedAnswer = "";
     private String rotorSetup;
-    private int stage = 0;
+    private int stage;
     private int ticker;
     private bool done;
     private bool visible;
@@ -136,7 +136,7 @@ public class forgetEnigma : MonoBehaviour {
     void Start ()
     {
         done = false;
-        int count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
+        count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
         Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
         if (count == 0)
         { //Prevent deadlock
@@ -204,6 +204,7 @@ public class forgetEnigma : MonoBehaviour {
         //Show configuration of Ref-Rot-Rot-Rot
         configuration.text = configText;
         //Show stage number
+        stage = 0;
         stageText.text = (stage + 1) + "";
         Debug.LogFormat("[Forget Enigma #{0}] Generated Answer: {1}", moduleId, encryptedAnswer);
     }
@@ -222,6 +223,7 @@ public class forgetEnigma : MonoBehaviour {
                 stage++;
                 if (stage >= count)
                 {
+                    Debug.LogFormat("[Forget Enigma #{0}] All {1} stages have been displayed. Going to submit mode.", moduleId, count);
                     done = true;
                     wipeScreens();
                     rotors = resetRotors(rotors);
@@ -232,6 +234,7 @@ public class forgetEnigma : MonoBehaviour {
                 }
                 else
                 {
+                    Debug.LogFormat("[Forget Enigma #{0}] A module was solved, moving on to stage {1} out of {2}", moduleId, stage + 1, count);
                     rotors = turn(rotors);
                     stageText.text = (stage + 1) + "";
                     rotorStart[0].text = rotors[1][1][0] + "";

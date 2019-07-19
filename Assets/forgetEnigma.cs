@@ -138,6 +138,7 @@ public class forgetEnigma : MonoBehaviour {
         done = false;
         count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
         Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
+        //count = 1;
         if (count == 0)
         { //Prevent deadlock
             Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);
@@ -489,17 +490,18 @@ public class forgetEnigma : MonoBehaviour {
         return "QWERTYUIOPASDFGHJKLZXCVBNM".IndexOf(c);
     }
 #pragma warning disable 414
-    private string TwitchHelpMessage = "Submit the decrypted word with !{0} qwertyuiopasdfghjklzxcvbnm";
+    private string TwitchHelpMessage = "Submit the decrypted word with !{0} submit qwertyuiopasdfghjklzxcvbnm";
 #pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
-        command = command.ToUpperInvariant().Trim();
-        int[] buttons = command.Select(getPositionFromChar).ToArray();
+        string[] split = command.ToUpperInvariant().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+        if (split.Length != 2 || !split[0].Equals("SUBMIT")) yield break;
+        int[] buttons = split[1].Select(getPositionFromChar).ToArray();
         if (buttons.Any(x => x < 0)) yield break;
         yield return null;
 
         yield return new WaitForSeconds(0.1f);
-        foreach (char let in command)
+        foreach (char let in split[1])
         {
             letterPress(let + "");
             yield return new WaitForSeconds(0.1f);

@@ -138,7 +138,7 @@ public class forgetEnigma : MonoBehaviour {
         done = false;
         count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
         Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
-        count = 1;
+        //count = 1;
         if (count == 0)
         { //Prevent deadlock
             Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);

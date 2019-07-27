@@ -138,7 +138,7 @@ public class forgetEnigma : MonoBehaviour {
         done = false;
         count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
         Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
-        //count = 1;
+        count = 1;
         if (count == 0)
         { //Prevent deadlock
             Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);
@@ -154,11 +154,11 @@ public class forgetEnigma : MonoBehaviour {
         }
 
         //Generate Reflector
-        rotors = new String[5][];
+        rotors = new String[4][];
         rotors[0] = generateReflector();
         //Generating Rotors
-        int[] nums = new int[3];
-        for (int aa = 1; aa < 4; aa++)
+        int[] nums = new int[2];
+        for (int aa = 1; aa < 3; aa++)
         {
             int num = UnityEngine.Random.Range(0, 8);
             while(isThere(nums, num, aa - 1))
@@ -176,11 +176,11 @@ public class forgetEnigma : MonoBehaviour {
 
         }
         Debug.LogFormat("[Forget Enigma #{0}] Enigma Configuration: {1}", moduleId, configText);
-        Debug.LogFormat("[Forget Enigma #{0}] Rotor Setup: {1}", moduleId, rotors[1][1][0] + "" + rotors[2][1][0] + "" + rotors[3][1][0]);
+        Debug.LogFormat("[Forget Enigma #{0}] Rotor Setup: {1}", moduleId, rotors[1][1][0] + "" + rotors[2][1][0]);
         //Adding in the keyboard
-        rotors[4] = enigKeyboard;
-        
-        rotorSetup = rotors[1][1][0] + "" + rotors[2][1][0] + "" + rotors[3][1][0];
+        rotors[3] = enigKeyboard;
+
+        rotorSetup = rotors[1][1][0] + "" + rotors[2][1][0];
         //Generating answer;
         for (int dd = 0; dd < count; dd++)
         {
@@ -199,7 +199,7 @@ public class forgetEnigma : MonoBehaviour {
         rotors = resetRotors(rotors);
         rotorStart[0].text = rotors[1][1][0] + "";
         rotorStart[1].text = rotors[2][1][0] + "";
-        rotorStart[2].text = rotors[3][1][0] + "";
+       
         //Show the encrypted letter at stage 1.
         getLitKey();
         //Show configuration of Ref-Rot-Rot-Rot
@@ -240,7 +240,6 @@ public class forgetEnigma : MonoBehaviour {
                     stageText.text = (stage + 1) + "";
                     rotorStart[0].text = rotors[1][1][0] + "";
                     rotorStart[1].text = rotors[2][1][0] + "";
-                    rotorStart[2].text = rotors[3][1][0] + "";
                     getLitKey();
                 }
             }
@@ -336,7 +335,7 @@ public class forgetEnigma : MonoBehaviour {
     //Resets the rotors back to stage 1 config.
     String[][] resetRotors(String[][] r)
     {
-        for (int cc = 0; cc < 3; cc++)
+        for (int cc = 0; cc < 2; cc++)
         {
             while (r[cc + 1][1][0] != rotorSetup[cc])
             {
@@ -385,7 +384,6 @@ public class forgetEnigma : MonoBehaviour {
                     getLitKey();
                     rotorStart[0].text = rotors[1][1][0] + "";
                     rotorStart[1].text = rotors[2][1][0] + "";
-                    rotorStart[2].text = rotors[3][1][0] + "";
                     Debug.LogFormat("");
                     visible = true;
                 }
@@ -402,21 +400,13 @@ public class forgetEnigma : MonoBehaviour {
     {
         rotorStart[0].text = "-";
         rotorStart[1].text = "-";
-        rotorStart[2].text = "-";
         turnOffKey();
     }
     String[][] turn(String[][] r)
     {
         if (isTurnOver(r[2]))
-        {
-            r[2] = turnOver(r[2]);
             r[1] = turnOver(r[1]);
-        }
-        else if (isTurnOver(r[3]))
-        {
-            r[2] = turnOver(r[2]);
-        }
-        r[3] = turnOver(r[3]);
+        r[2] = turnOver(r[2]);
         return rotors;
     }
     private String[] turnOver(String[] r)
@@ -474,7 +464,7 @@ public class forgetEnigma : MonoBehaviour {
             }
             letterLog = letterLog + "" + let + "->";
         }
-        Debug.LogFormat("[Forget Enigma #{0}] Stage {1}: {2}: {3}", moduleId, s, r[1][1][0] + "" + r[2][1][0] + "" + r[3][1][0], letterLog.Substring(0, letterLog.Length - 2));
+        Debug.LogFormat("[Forget Enigma #{0}] Stage {1}: {2}: {3}", moduleId, s, r[1][1][0] + "" + r[2][1][0], letterLog.Substring(0, letterLog.Length - 2));
         return let;
     }
     

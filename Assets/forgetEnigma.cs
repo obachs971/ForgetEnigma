@@ -94,6 +94,7 @@ public class forgetEnigma : MonoBehaviour {
     private String[][] rotors;
 
     private int count = 0;
+    private int delay = 0;
     private String answer = "";
     private String encryptedAnswer = "";
     private String rotorSetup;
@@ -278,6 +279,8 @@ public class forgetEnigma : MonoBehaviour {
         rotorStart[0].text = rotors[1][1][0] + "";
         rotorStart[1].text = rotors[2][1][0] + "";
 
+        delay = 300;
+
         //Show the encrypted letter at stage 1.
         getLitKey();
         //Show configuration of Ref-Rot-Rot-Rot
@@ -293,11 +296,15 @@ public class forgetEnigma : MonoBehaviour {
     void Update()
     {
         ticker++;
+        if (delay > 0)
+        {
+            delay--;
+        }
         if (ticker == 15)
         {
             ticker = 0;
             int progress = BombInfo.GetSolvedModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
-            if (progress > stage && !done)
+            if (progress > stage && !done && delay <= 0)
             {
                 stage++;
                 if (stage >= count)
@@ -318,6 +325,7 @@ public class forgetEnigma : MonoBehaviour {
                     stageText.text = (stage + 1) + "";
                     rotorStart[0].text = rotors[1][1][0] + "";
                     rotorStart[1].text = rotors[2][1][0] + "";
+                    delay = 300;
                     getLitKey();
                 }
             }
@@ -432,7 +440,7 @@ public class forgetEnigma : MonoBehaviour {
             Debug.LogFormat("[Forget Enigma #{0}] You pressed {1}", moduleId, let);
             Debug.LogFormat("[Forget Enigma #{0}] Stage {1} out of {2}", moduleId, stage + 1, answer.Length);
             Debug.LogFormat("[Forget Enigma #{0}] Expecting the letter {1} to be pressed", moduleId, answer[stage]);
-            Audio.PlaySoundAtTransform(sounds[0].name, transform);
+            Audio.PlaySoundAtTransform(sounds[0].name, keyboard[Array.IndexOf(order.ToArray(), let.ToCharArray()[0])].transform);
             if (done)
             {
                 if(visible)

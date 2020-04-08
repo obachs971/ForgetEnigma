@@ -160,6 +160,11 @@ Prefab:
       propertyPath: m_Name
       value: testmod (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114610466078083528, guid: 2292e9e1df111024887b7364e6422ae0,
+        type: 2}
+      propertyPath: ChildRowLength
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
   m_IsPrefabParent: 0
@@ -392,6 +397,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1428716097805092, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114610466078083528, guid: 2292e9e1df111024887b7364e6422ae0,
+        type: 2}
+      propertyPath: ChildRowLength
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

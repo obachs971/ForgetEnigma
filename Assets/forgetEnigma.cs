@@ -8,7 +8,6 @@ using KModkit;
 
 public class forgetEnigma : MonoBehaviour {
     public KMAudio Audio;
-    public KMBomb Bomb;
     public KMBombInfo BombInfo;
     public KMBombModule Module;
     static int moduleIdCounter = 1;
@@ -95,6 +94,7 @@ public class forgetEnigma : MonoBehaviour {
     private String[][] rotors;
 
     private int count = 0;
+    private int delay = 0;
     private String answer = "";
     private String encryptedAnswer = "";
     private String rotorSetup;
@@ -105,7 +105,7 @@ public class forgetEnigma : MonoBehaviour {
     public static string[] ignoredModules = null;
     void Awake()
     {
-        moduleId = moduleIdCounter;
+        moduleId = moduleIdCounter++;
         foreach(KMSelectable letter in keyboard)
         {
             KMSelectable pressedLetter = letter;
@@ -131,11 +131,12 @@ public class forgetEnigma : MonoBehaviour {
                     "Turn The Key"
             });
         }
+        Module.OnActivate += OnActivate;
     }
     // Use this for initialization
     void Start ()
     {
-        done = false;
+        /**done = false;
         count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
         Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
         //count = 1;
@@ -143,7 +144,7 @@ public class forgetEnigma : MonoBehaviour {
         { //Prevent deadlock
             Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);
             Audio.PlaySoundAtTransform(sounds[1].name, transform);
-            GetComponent<KMBombModule>().HandlePass();
+            //GetComponent<KMBombModule>().HandlePass();
             moduleSolved = true;
             return;
         }
@@ -197,9 +198,89 @@ public class forgetEnigma : MonoBehaviour {
         }
         //Reseting rotors back to stage 1 config.
         rotors = resetRotors(rotors);
+        //rotorStart[0].text = rotors[1][1][0] + "";
+        //rotorStart[1].text = rotors[2][1][0] + "";
+       
+        //Show the encrypted letter at stage 1.
+        //getLitKey();
+        //Show configuration of Ref-Rot-Rot-Rot
+        //configuration.text = configText;
+        //Show stage number
+        stage = 0;
+        //stageText.text = (stage + 1) + "";
+        Debug.LogFormat("[Forget Enigma #{0}] Generated Answer: {1}", moduleId, encryptedAnswer);*/
+    }
+
+    //Once the lights turn on check for modules and generate answer
+    void OnActivate()
+    {
+        done = false;
+        count = BombInfo.GetSolvableModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
+        Debug.LogFormat("[Forget Enigma #{0}] Number of stages is {1}", moduleId, count);
+        if (count == 0)
+        { //Prevent deadlock
+            Debug.LogFormat("[Forget Enigma #{0}] No valid stage modules, auto-solving.", moduleId);
+            //Audio.PlaySoundAtTransform(sounds[1].name, transform);
+            //Module.HandlePass();
+            moduleSolved = true;
+            StartCoroutine(deadlockSolve());
+            return;
+        }
+        if (count > 99)
+        { //More than 99 stages will cause issues as the stage display only has 2 digits
+            Debug.LogFormat("[Forget Enigma #{0}] More than 99 stages, capping at 99.", moduleId);
+            count = 99;
+        }
+
+        //Generate Reflector
+        rotors = new String[4][];
+        rotors[0] = generateReflector();
+        //Generating Rotors
+        int[] nums = new int[2];
+        for (int aa = 1; aa < 3; aa++)
+        {
+            int num = UnityEngine.Random.Range(0, 8);
+            while (isThere(nums, num, aa - 1))
+            {
+                num = UnityEngine.Random.Range(0, 8);
+            }
+            rotors[aa] = generateRotor(num);
+            nums[aa - 1] = num;
+            num = UnityEngine.Random.Range(0, 26);
+            for (int bb = 0; bb < num; bb++)
+            {
+                rotors[aa] = turnOver(rotors[aa]);
+            }
+
+
+        }
+        Debug.LogFormat("[Forget Enigma #{0}] Enigma Configuration: {1}", moduleId, configText);
+        Debug.LogFormat("[Forget Enigma #{0}] Rotor Setup: {1}", moduleId, rotors[1][1][0] + "" + rotors[2][1][0]);
+        //Adding in the keyboard
+        rotors[3] = enigKeyboard;
+
+        rotorSetup = rotors[1][1][0] + "" + rotors[2][1][0];
+        //Generating answer;
+        for (int dd = 0; dd < count; dd++)
+        {
+            answer = answer + "" + generateLetter();
+        }
+        Debug.LogFormat("[Forget Enigma #{0}] Generated Answer: {1}", moduleId, answer);
+        //Encrypting answer
+        int tempCounter = 1;
+        foreach (char let in answer)
+        {
+            encryptedAnswer = encryptedAnswer + "" + encrypt(rotors, let, tempCounter);
+            rotors = turn(rotors);
+            tempCounter++;
+        }
+        //Reseting rotors back to stage 1 config.
+        rotors = resetRotors(rotors);
         rotorStart[0].text = rotors[1][1][0] + "";
         rotorStart[1].text = rotors[2][1][0] + "";
-       
+
+        delay = 300;
+
         //Show the encrypted letter at stage 1.
         getLitKey();
         //Show configuration of Ref-Rot-Rot-Rot
@@ -215,11 +296,15 @@ public class forgetEnigma : MonoBehaviour {
     void Update()
     {
         ticker++;
+        if (delay > 0)
+        {
+            delay--;
+        }
         if (ticker == 15)
         {
             ticker = 0;
             int progress = BombInfo.GetSolvedModuleNames().Where(x => !ignoredModules.Contains(x)).Count();
-            if (progress > stage && !done)
+            if (progress > stage && !done && delay <= 0)
             {
                 stage++;
                 if (stage >= count)
@@ -240,6 +325,7 @@ public class forgetEnigma : MonoBehaviour {
                     stageText.text = (stage + 1) + "";
                     rotorStart[0].text = rotors[1][1][0] + "";
                     rotorStart[1].text = rotors[2][1][0] + "";
+                    delay = 300;
                     getLitKey();
                 }
             }
@@ -347,12 +433,14 @@ public class forgetEnigma : MonoBehaviour {
     //On a key press
     void letterPress(String let)
     {
-        Debug.LogFormat("[Forget Enigma #{0}] You pressed {1}", moduleId, let);
-        Debug.LogFormat("[Forget Enigma #{0}] Stage {1} out of {2}", moduleId, stage + 1, answer.Length);
+        //Debug.LogFormat("[Forget Enigma #{0}] You pressed {1}", moduleId, let);
+        //Debug.LogFormat("[Forget Enigma #{0}] Stage {1} out of {2}", moduleId, stage + 1, answer.Length);
         if (!moduleSolved)
         {
+            Debug.LogFormat("[Forget Enigma #{0}] You pressed {1}", moduleId, let);
+            Debug.LogFormat("[Forget Enigma #{0}] Stage {1} out of {2}", moduleId, stage + 1, answer.Length);
             Debug.LogFormat("[Forget Enigma #{0}] Expecting the letter {1} to be pressed", moduleId, answer[stage]);
-            Audio.PlaySoundAtTransform(sounds[0].name, transform);
+            Audio.PlaySoundAtTransform(sounds[0].name, keyboard[Array.IndexOf(order.ToArray(), let.ToCharArray()[0])].transform);
             if (done)
             {
                 if(visible)
@@ -479,9 +567,21 @@ public class forgetEnigma : MonoBehaviour {
     {
         return "QWERTYUIOPASDFGHJKLZXCVBNM".IndexOf(c);
     }
-#pragma warning disable 414
+
+    private IEnumerator deadlockSolve()
+    {
+        yield return new WaitForSeconds(.01f);
+        stageText.text = "--";
+        rotorStart[0].text = "-";
+        rotorStart[1].text = "-";
+        Audio.PlaySoundAtTransform(sounds[1].name, transform);
+        Module.HandlePass();
+    }
+
+    // Twitch Plays
+    #pragma warning disable 414
     private string TwitchHelpMessage = "Submit the decrypted word with !{0} submit qwertyuiopasdfghjklzxcvbnm";
-#pragma warning restore 414
+    #pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
         string[] split = command.ToUpperInvariant().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
@@ -497,5 +597,18 @@ public class forgetEnigma : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(0.1f);
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (!done)
+        {
+            yield return true;
+        }
+        for (int i = stage; i < count; i++)
+        {
+            keyboard[getPositionFromChar(answer[i])].OnInteract();
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }

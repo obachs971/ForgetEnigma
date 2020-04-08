@@ -77,15 +77,18 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -107,7 +110,64 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &729144146
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.0053061005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428716097805092, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428716097805092, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_Name
+      value: testmod (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114610466078083528, guid: 2292e9e1df111024887b7364e6422ae0,
+        type: 2}
+      propertyPath: ChildRowLength
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &899716604
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,11 +239,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &899716609
 Transform:
   m_ObjectHideFlags: 0
@@ -296,6 +356,57 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c676da7dfa38e8644904bcbecbc78cc1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &1622124989
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.0053061005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167667054540878, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428716097805092, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114610466078083528, guid: 2292e9e1df111024887b7364e6422ae0,
+        type: 2}
+      propertyPath: ChildRowLength
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2292e9e1df111024887b7364e6422ae0, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2014584656
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,20 +455,6 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_FalloffTable:
-    m_Table[0]: 0
-    m_Table[1]: 0
-    m_Table[2]: 0
-    m_Table[3]: 0
-    m_Table[4]: 0
-    m_Table[5]: 0
-    m_Table[6]: 0
-    m_Table[7]: 0
-    m_Table[8]: 0
-    m_Table[9]: 0
-    m_Table[10]: 0
-    m_Table[11]: 0
-    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0

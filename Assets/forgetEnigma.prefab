@@ -2999,7 +2999,7 @@ Transform:
   m_GameObject: {fileID: 1162690152257170}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.0165, y: 0.0091, z: 0.0335}
-  m_LocalScale: {x: 0.13, y: 0.001, z: 0.03}
+  m_LocalScale: {x: 0.133, y: 0.001, z: 0.03}
   m_Children:
   - {fileID: 4693292536905554}
   - {fileID: 4031126444748954}
@@ -10208,6 +10208,7 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: 9d40ca539ab74a34bb91bb0e1f3807b7, type: 3}
   - {fileID: 8300000, guid: 111b40566ea5fc3439b23a90be17dc04, type: 3}
+  ModuleSel: {fileID: 114474809929925124}
 --- !u!114 &114606733304245368
 MonoBehaviour:
   m_ObjectHideFlags: 1

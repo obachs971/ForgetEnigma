@@ -107,6 +107,8 @@ public class forgetEnigma : MonoBehaviour
     private bool visible;
     private int inputIx = 15;
     public static string[] ignoredModules = null;
+    private bool moduleFocused;
+    public KMSelectable ModuleSel;
     void Awake()
     {
         moduleId = moduleIdCounter++;
@@ -137,6 +139,28 @@ public class forgetEnigma : MonoBehaviour
             });
         }
         Module.OnActivate += OnActivate;
+    }
+
+    private void Start()
+    {
+        ModuleSel.OnFocus += delegate () { moduleFocused = true; };
+        ModuleSel.OnDefocus += delegate () { moduleFocused = false; };
+    }
+
+    private void OnGUI()
+    {
+        if (!moduleFocused)
+            return;
+        Event e = Event.current;
+        if (e.type != EventType.KeyDown)
+            return;
+        ProcessKey(e.keyCode);
+    }
+
+    private void ProcessKey(KeyCode key)
+    {
+        if (key >= KeyCode.A && key <= KeyCode.Z)
+            letterPress(key.ToString().ToUpperInvariant());
     }
 
     //Once the lights turn on check for modules and generate answer
